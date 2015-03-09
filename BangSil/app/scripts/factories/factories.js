@@ -1,0 +1,1 @@
+App.factory("Alert",["$modal",function(e){return{show:function(t,n,r){console.log(arguments);var i=e.open({templateUrl:"./views/alertDialogView.html",resolve:{contents:function(){return{title:t,message:n}}},controller:["$scope","$modalInstance","contents",function(e,t,n){e.contents=n}]});i.result.then(angular.noop,r)}}}])

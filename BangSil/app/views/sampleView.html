@@ -1,0 +1,23 @@
+﻿<div>
+	<map-height height="40" to=".angular-google-map-container" style="">
+		<google-map center="map.center" zoom="map.zoom" draggable="true" bounds="map.bounds" map-height="50" options="map.options">
+			<markers models="toiletMarkers" coords="'self'" options="'options'" icon="'icon'">
+			</markers>
+		</google-map>
+	</map-height>
+	<tabset sample-directive="60">
+		<tab heading="{{accmType.type}}" ng-repeat="accmType in accmTypes">
+			<ul style="list-style-type:none" class="list-group" tab-scroll>
+				<li class="list-group-item" ng-repeat="accmItem in getAccmItems(accmType)" ng-click="onAccmItemClicked(accmItem)">
+					<div style="cursor:pointer"> 
+						{{accmItem.name}}<br/>
+						<span style="font-size:8pt">
+							<span style="color:#2C6DD7;padding-left:20px;font-weight:bold">시간</span><span style="padding-left: 5px">{{accmItem.optime}}</span>
+							<span style="color:#2C6DD7;padding-left:20px;">설명</span><span style="padding-left: 5px">{{accmItem.desc}}</span>
+						</span>
+					</div>
+				</li>
+			</ul>
+		</tab>
+	</tabset>
+</div>

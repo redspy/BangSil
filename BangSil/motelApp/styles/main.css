@@ -1,0 +1,136 @@
+/* styles/app.css */
+
+.tab-content { overflow-y: hidden }
+.tab-pane { overflow-y: auto;}
+﻿/* styles/app.css */
+
+/* adView */
+#haa {
+	color:blue;
+}
+.adImage {
+	width: 95%;
+	margin : 0px 10px 0px 10px;
+	color: red;
+	display: block;
+	border-radius: 5px;
+	margin-top : 10px;
+	margin-bottom : 10px;	
+}
+
+img {
+	margin:30px;
+}
+
+body { 
+	font-family: '맑은 고딕';
+	font-size: ;
+}
+
+.panel-title {
+	font-weight: bold;
+	margin-left : auto;
+	margin-right : auto;
+	width : 100%
+}
+
+/* Taxi List Style*/
+.trans_taxi .taxi_name {
+	display: block;
+	font-weight: bold;
+	font-size: 15pt;
+}
+
+.trans_taxi .taxi_phone {
+	color: white;
+	font-size: 20pt;
+	border-radius: 5px;
+	padding: 5px 8pt;
+	background-color: #2C6DD7;
+}
+
+.trans_taxi .taxi_payTitle {
+	color: #000000;
+	font-weight: bold;
+/*	margin-left: 10px;*/
+}
+
+.trans_taxi .taxi_number {
+	color: #2C6DD7;
+/* 	margin-left: 10px; */
+}
+
+/* Room List Style */
+.stay_room .room_name {
+	display: block;
+	font-weight: bold;
+	font-size: 14pt;
+	margin-left : 5px;
+}
+
+.stay_room .room_addr {
+	display: block;
+	font-weight: bold;
+	font-size: 10pt;
+	margin-left : 5px;
+}
+
+.stay_room .room_phone {
+	color: white;
+	text-align: center;
+	font-size: 20pt;
+	border-radius: 5px;
+	padding: 0px 5pt;
+	background-color: #1ba3d9;
+	margin-left : 5px;
+	margin-top : 5px;
+}
+
+.notice {
+	text-align: center;
+	margin: 20px;
+}
+
+.border-bottom {
+	border-bottom: 1px solid #ddd;
+}
+
+.requestItemHeader {
+	font-weight: bold;
+	text-align: center;
+}
+
+.requestItem {
+	padding: 10px;
+}
+
+.light-gray {
+	background-color: #eee
+}
+
+.panel-content {
+	padding:10px 15px;
+}
+
+.center-content {
+	text-align: center;
+}
+
+.large-content-icon {
+	font-size:120px;
+	padding: 20px;
+	color:#bbb;
+	text-shadow: 2px 2px #ddd;
+}
+
+.dialog-content {
+	font-size: 14px;
+	color: #444;
+
+	padding:5px 0px;
+}
+
+.notice-title {
+	text-transform: uppercase;
+	color: #CCCCCC;
+}

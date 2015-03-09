@@ -1,0 +1,102 @@
+﻿<div content-for="title">
+    <span>{{name}}</span>
+</div>
+<div style="background-color : white">
+    <tabset percent-height="100">
+        <tab heading="승인요청">
+            <ul style="list-style-type:none" class="list-group" tab-scroll>
+                <li class="list-group-item" ng-repeat="room in rooms" style="maring-right : 3px">
+                    <div style="cursor:pointer" class="stay_room">
+                        <table width="100%">
+                            <tr>
+                                <td colspan="2">
+                                    <img style="width:100%;margin : 1px" ng-src="images/motel/{{room.mainimg}}" alt="{{room.name}}">
+                                </td>
+                            <tr>
+                            <tr>
+                                <td>
+                                    <span class="room_name">{{room.name}}</span>
+                                    <span class="room_addr">{{room.address}}</span>
+                                </td>
+                                <td>
+                                    <a href="tel:{{room.telephone}}" class="pull-right room_phone">
+                                        <i class="fa fa-phone" style="font-size:30px;margin:0px;padding:0px"></i><span style="display:block;font-size:7px">전화하기</span>
+                                    </a>
+                                </td>
+                        </table>
+                    </div>
+                </li>
+            </ul>
+        </tab>
+        <tab heading="예약현황">
+            <ul style="list-style-type:none" class="list-group" tab-scroll>
+                <li>
+                    <div class="panel" bs-panel percent-height="100">
+                        <div class="panel-heading">
+                            <h2 class="panel-title">검색 조건 입력</h2>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-xs-5 col-sm-2 col-lg-1">권역</label>
+                            <div class="col-xs-7 col-sm-4 col-lg-11">
+                                <select class="form-control">
+                                    <option ng-repeat="region in regions">{{region}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-xs-5 col-sm-2 col-lg-1">가격</label>
+                            <div class="col-xs-7 col-sm-4 col-lg-11">
+                                <select class="form-control">
+                                    <option ng-repeat="pay in payExamples">{{pay}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-xs-5 col-sm-2 col-lg-1">체크인</label>
+                            <div class="col-xs-7 col-sm-4 col-lg-11">
+                            </div>
+                        </div>
+
+                        <div ng-controller="DatepickerDemoCtrl">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p class="input-group">
+                                        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" id="date-picker" readonly
+                                        ng-click="open($event)" />
+                                        <span class="input-group-btn">
+	                					<button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+	              					</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                                                <div class="form-group row">
+                            <label class="col-xs-5 col-sm-2 col-lg-1">체크아웃</label>
+                            <div class="col-xs-7 col-sm-4 col-lg-11">
+                            </div>
+                        </div>
+
+                        <div ng-controller="DatepickerDemoCtrl">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p class="input-group">
+                                        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" id="date-picker" readonly
+                                        ng-click="open($event)" />
+                                        <span class="input-group-btn">
+	                					<button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+	              					</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </tab>
+        <tab heading="알림설정">
+        </tab>
+    </tabset>
+</div>

@@ -1,0 +1,293 @@
+﻿<div content-for="title">
+    <span>{{name}}</span>
+</div>
+<div style="background-color:white">
+    <tabset percent-height="100">
+        <tab heading="권역" select="onRegionSelected()">
+            <div class="panel" bs-panel tab-scroll>
+                <div class="panel-heading">
+                    <h2 class="panel-title">권역</h2>
+                </div>
+
+                <input bs-form-control type="text" ng-model="curRegion.name" label="권역" label-class="col-xs-3 col-sm-3 col-lg-3" class="col-xs-9 col-sm-9 col-lg-9" placeholder="권역" />
+                <div class="center-block text-center">
+                    <button class="btn btn-primary btn-lg" ng-click="confirmRegion()">확인</button>
+                    <button class="btn btn-primary btn-lg" ng-click="cancelRegion()">취소</button>
+                </div>
+
+                <div>
+                    <ul class="list-group">
+                        <li ng-repeat="region in regions" class="list-group-item selectable" ng-click="updateRegion(region)">
+                            <span>
+                                {{region.name}} (<a ng-click="removeRegion(region)">삭제</a>)
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </tab>
+        <tab heading="모텔" select="onMotelSelected()">
+            <div class="panel" bs-panel tab-scroll>
+                <div class="panel-heading">
+                    <h2 class="panel-title">등록</h2>
+                </div>
+                <div>
+                    <div class="form-group row">
+                        <label class="col-xs-3 col-sm-3 col-lg-3">권역</label>
+                        <div class="col-xs-9 col-sm-9 col-lg-9">
+                            <select class="form-control" ng-model="curMotel.region">
+                                <option ng-repeat="region in regions" value="{{region.id}}">{{region.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <input bs-form-control type="text" ng-model="curMotel.name" label="상호명" label-class="col-xs-3 col-sm-3 col-lg-3" class="col-xs-9 col-sm-9 col-lg-9" placeholder="모텔 이름" />
+                    <input bs-form-control type="text" ng-model="curMotel.ownername" label="주인" label-class="col-xs-3 col-sm-3 col-lg-3" class="col-xs-9 col-sm-9 col-lg-9" placeholder="사장님 이름" />
+                    <input bs-form-control type="text" ng-model="curMotel.address" label="주소" label-class="col-xs-3 col-sm-3 col-lg-3" class="col-xs-9 col-sm-9 col-lg-9" placeholder="모텔 주소" />
+                    <input bs-form-control type="text" ng-model="curMotel.telephone" label="전화번호" label-class="col-xs-3 col-sm-3 col-lg-3" class="col-xs-9 col-sm-9 col-lg-9" placeholder="033-555-1234" />
+                    <input bs-form-control type="text" ng-model="curMotel.gps" label="GPS" label-class="col-xs-3 col-sm-3 col-lg-3" class="col-xs-9 col-sm-9 col-lg-9" placeholder="34.123, 127.123" />
+                    <div class="form-group row">
+                        <label class="col-xs-3 col-sm-3 col-lg-3">대표 이미지</label>
+                        <div class="btn-group col-xs-9 col-sm-9 col-lg-9">
+                            <input type="file" file-model="curMotel.mainimg" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-xs-3 col-sm-3 col-lg-3">UUID</label>
+                        <div class="col-xs-9 col-sm-9 col-lg-9">
+                            <select class="form-control" ng-model="curMotel.uuid">
+                                <option ng-repeat="maqItem in motelApprovalQueue">{{maqItem.uuid}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="center-block text-center">
+                        <button class="btn btn-primary" ng-click="submitMotel()">등록</button>
+                        <button class="btn btn-danger" ng-click="cancelMotel()">취소</button>
+                    </div>
+                    <div class="panel-heading">
+                        <h2 class="panel-title">목록</h2>
+                    </div>
+                    <div>
+                        <ul style="list-style-type:none" class="list-group">
+                            <li class="list-group-item selectable" ng-repeat="motel in motels" ng-click="modifyMotel(motel)">
+                                {{motel.name}}({{motel.ownername}})(<a ng-click="removeMotel(motel.id)">삭제</a>)
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </tab>
+        <tab heading="광고" select="onAdSelected()">
+            <div class="panel" bs-panel tab-scroll>
+                <div class="panel-heading">
+                    <h2 class="panel-title">유용한 정보</h2>
+                </div>
+                <div>
+                    <input bs-form-control type="text" ng-model="curAd.name" label="이름" label-class="col-xs-3 col-sm-3 col-lg-3" class="col-xs-9 col-sm-9 col-lg-9" placeholder="광고 이름" />
+                    <div class="form-group row">
+                        <label class="col-xs-3 col-sm-3 col-lg-3">종류</label>
+                        <div class="btn-group col-xs-9 col-sm-9 col-lg-9">
+                            <label class="btn btn-default" ng-model="curAd.type" btn-radio="'tel:'" uncheckable>전화</label>
+                            <label class="btn btn-default" ng-model="curAd.type" btn-radio="''" uncheckable>URL</label>
+                        </div>
+                    </div>
+                    <input bs-form-control type="text" ng-model="curAd.link" label="링크" label-class="col-xs-3 col-sm-3 col-lg-3" class="col-xs-9 col-sm-9 col-lg-9" placeholder="전화번호 또는 URL" />
+                    <div class="form-group row">
+                        <label class="col-xs-3 col-sm-3 col-lg-3">이미지</label>
+                        <div class="col-xs-9 col-sm-9 col-lg-9">
+                            <input type="file" file-model="curAd.banner" />
+                        </div>
+                    </div>
+                    <button class="btn btn-default" ng-click="submitAdvertise()">등록</button>
+                </div>
+
+                <div class="panel-heading">
+                    <h2 class="panel-title">목록</h2>
+                </div>
+                <div>
+                    <ul style="list-style-type:none" class="list-group">
+                        <li class="list-group-item" ng-repeat="ad in ads">
+                            {{ad.name}} (
+                            <a ng-click="removeAd(ad.id)">삭제</a>)
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </tab>
+        <tab heading="콜택시" select="onCallTaxiSelected()">
+            <ul style="list-style-type:none" class="list-group" tab-scroll percent-height="100">
+                <li>
+                    <div class="panel" bs-panel>
+                        <div class="panel-heading">
+                            <h2 class="panel-title">콜택시 등록</h2>
+                        </div>
+
+                        <input bs-form-control type="text" ng-model="curCallTaxi.name" label="이름" label-class="col-xs-5 col-sm-5 col-lg-5" class="col-xs-7 col-sm-7 col-lg-7" placeholder="콜택시 이름" />
+                        <input bs-form-control type="text" ng-model="curCallTaxi.callfee" label="콜비" label-class="col-xs-5 col-sm-5 col-lg-5" class="col-xs-7 col-sm-7 col-lg-7" placeholder="콜비 가격" />
+                        <input bs-form-control type="text" ng-model="curCallTaxi.telno" label="전화번호" label-class="col-xs-5 col-sm-5 col-lg-5" class="col-xs-7 col-sm-7 col-lg-7" placeholder="033-000-0000" />
+                        <button class="btn btn-primary" ng-click="submitCurrentCallTaxi()">등록</button>
+                        <div>
+                            <ul class="list-group">
+                                <li class="list-group-item" ng-repeat="callTaxi in callTaxis">{{callTaxi.name}} | {{callTaxi.telno}} | {{callTaxi.callfee}}원 &nbsp;&nbsp;&nbsp;(<a ng-click="removeCallTaxi(callTaxi.id)">삭제</a>)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </tab>
+        <tab heading="버스" select="">
+            <div class="panel" bs-panel>
+                <div class="panel-heading">
+                    <h2 class="panel-title">버스</h2>
+                </div>
+                <div>
+                    <div class="form-group row text-center">
+                        <span>일괄 등록시 기존에 있던 버스 정보는 삭제됩니다.</span>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-xs-5 col-sm-2 col-lg-1">데이터 파일</label>
+                        <div class="btn-group col-xs-7 col-sm-4 col-lg-11">
+                            <input type="file" file-model="batchBusStop.file"/>
+                        </div>
+                    </div>                        
+                    <div class="form-group row">
+                        <label class="col-xs-5 col-sm-2 col-lg-1">양식</label>
+                        <div class="form-control-wrapper col-xs-7 col-sm-4 col-lg-11">
+                            <a href="/app/files/bus_stop_template.xlsx"><span>다운로드</span></a>
+                        </div>
+                    </div>
+
+                    <div class="center-block text-center">
+                        <button class="btn btn-primary" ng-click="submitBusStop()">일괄 등록하기</button>
+                    </div>                        
+                </div>
+            </div>
+        </tab>
+        <tab heading="편의시설" select="onAccmSelected()">
+            <ul style="list-style-type:none" class="list-group" tab-scroll percent-height="100">
+                <li>
+                    <div class="panel" bs-panel>
+                        <div class="panel-heading">
+                            <h2 class="panel-title">편의시설 종류 등록</h2>
+                        </div>
+                        <input bs-form-control type="text" ng-model="curAccmType.type" label="편의시설 종류" label-class="col-xs-5 col-sm-2 col-lg-1" class="col-xs-7 col-sm-4 col-lg-11" placeholder="종류" />
+                        <div class="form-group row">
+                            <label class="col-xs-5 col-sm-2 col-lg-1">지도 아이콘</label>
+                            <div class="btn-group col-xs-7 col-sm-4 col-lg-11">
+                                <input type="file" file-model="curAccmType.icon"/>
+                            </div>
+                        </div>
+                        <input bs-form-control type="text" ng-model="curAccmType.iconAnchor" label="아이콘 앵커" label-class="col-xs-5 col-sm-2 col-lg-1" class="col-xs-7 col-sm-4 col-lg-11" placeholder="x y" />
+                        <button class="btn btn-primary" ng-click="submitCurrentItem()">등록</button>
+                        <div>
+                            <ul class="list-group">
+                                <li ng-repeat="accmType in accmTypes" class="list-group-item">{{accmType.type}} (<a ng-click="removeAccmType(accmType.id)">삭제</a>)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="panel" bs-panel>
+                        <div class="panel-heading">
+                            <h2 class="panel-title">편의시설 일괄등록</h2>
+                        </div>
+                        <div class="form-group row text-center">
+                            <span>일괄 등록시 기존에 있던 편의시설은 삭제됩니다.</span>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-xs-5 col-sm-2 col-lg-1">편의시설 종류</label>
+                            <div class="col-xs-7 col-sm-4 col-lg-11">
+                                <select class="form-control" ng-model="batchAccmItems.type">
+                                    <option ng-repeat="accmType in accmTypes" ng-value="accmType.id">{{accmType.type}}</option>
+                                </select>
+                            </div>
+                        </div>                        
+
+                        <div class="form-group row">
+                            <label class="col-xs-5 col-sm-2 col-lg-1">데이터 파일</label>
+                            <div class="btn-group col-xs-7 col-sm-4 col-lg-11">
+                                <input type="file" file-model="batchAccmItems.file"/>
+                            </div>
+                        </div>                        
+                        <div class="form-group row">
+                            <label class="col-xs-5 col-sm-2 col-lg-1">좌표</label>
+                            <div class="form-control-wrapper col-xs-7 col-sm-4 col-lg-11">
+                                <a href="/app/files/convenience_item_template.xlsx"><span>양식 다운로드</span></a>
+                            </div>
+                        </div>
+
+                        <div class="center-block text-center">
+                            <button class="btn btn-primary" ng-click="submitAccmDatabase()">일괄 등록하기</button>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="panel" bs-panel>
+                        <div class="panel-heading">
+                            <h2 class="panel-title">편의시설 개별등록</h2>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-xs-5 col-sm-2 col-lg-1">편의시설 종류</label>
+                            <div class="col-xs-7 col-sm-4 col-lg-11">
+                                <select class="form-control" ng-model="curAccmItem.type">
+                                    <option ng-repeat="accmType in accmTypes" ng-value="accmType.id">{{accmType.type}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <input bs-form-control type="text" ng-model="curAccmItem.name" label="이름" label-class="col-xs-5 col-sm-2 col-lg-1" class="col-xs-7 col-sm-4 col-lg-11" placeholder="편의시설 이름" />
+                            <div class="form-group row">
+                                <label class="col-xs-5 col-sm-2 col-lg-1">운영시간</label>
+                                <div class="form-control-wrapper col-xs-7 col-sm-4 col-lg-11">
+                                	<select ng-model="curAccmItem.begintime"
+                                	        ng-options="item as item for item in opTimeOptions"
+                                	        required="required">
+                                	</select>:00 ~
+                                	<select ng-model="curAccmItem.endtime"
+                                	        ng-options="item as item for item in opTimeOptions"
+                                	        required="required">
+                                	</select>:00
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-xs-5 col-sm-2 col-lg-1">좌표</label>
+                                <div class="form-control-wrapper col-xs-7 col-sm-4 col-lg-11">
+                                    <input type="text" placeholder="34.012, 127.042" class="form-control" ng-model="curAccmItem.geo" />
+                                </div>
+                            </div>
+                            <input bs-form-control type="text" ng-model="curAccmItem.desc" label="설명" label-class="col-xs-5 col-sm-2 col-lg-1" class="col-xs-7 col-sm-4 col-lg-11" placeholder="설명" />
+                        </div>
+                        <input bs-form-control 
+                               type="text" 
+                               ng-model="curAccmItem.rate" 
+                               label="요금" 
+                               label-class="col-xs-5 col-sm-2 col-lg-1" 
+                               class="col-xs-7 col-sm-4 col-lg-11" 
+                               placeholder="기본 30분 3,000원 초과 10분당 500원" />
+                        <div class="center-block text-center"> 
+                            <button class="btn btn-primary" ng-click="submitCurrentAccmItem()">등록</button>
+                        </div>
+                        <div>
+                            <ul class="list-group">
+                                <li ng-repeat="accmItem in accmItems" class="list-group-item">
+                                    <span>{{accmItem.name}}</span>
+                                    (
+                                    <span>{{accmItem.geox}}</span>,
+                                    <span>{{accmItem.geoy}}</span>)
+                                    <span>{{accmItem.optime}}</span>|
+                                    <span>{{accmItem.desc}}</span>
+                                    (
+                                    <a ng-click="removeAccmItem(accmItem.id)">X</a>)
+                                </li>
+                            </ul>
+                        </div>
+                                                
+                    </div>
+                </li>
+            </ul>
+        </tab>
+
+    </tabset>
+</div>

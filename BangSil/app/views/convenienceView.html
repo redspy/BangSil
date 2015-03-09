@@ -1,0 +1,72 @@
+﻿<div content-for="title">
+	<span>{{name}}</span>
+</div>
+<div style="background-color : #ffffff">
+	
+	<ui-gmap-google-map center="map.center" 
+	                    zoom="map.zoom" 
+	                    draggable="true" 
+	                    bounds="map.bounds" 
+	                    options="map.options">
+		<ui-gmap-markers idKey="'id'" 
+		                 models="mapMarker" 
+		                 coords="'self'" 
+		                 options="'options'" 
+		                 icon="'icon'"
+		                 click="'click'">
+			<ui-gmap-windows show="'show'">
+				<div ng-non-bindable class="map-window">
+					<div>
+						<span class="map-title">
+							{{title}}
+						</span>
+					</div>
+					<div>
+						<span class="map-label">주소: </span><span class="map-value">{{address}}</span>
+					</div>
+					<div>
+						<span class="map-label">상태: </span><span class="map-value">{{isOpened ? "열림" : "닫힘"}}</span>
+					</div>
+					<div>
+						<span class="map-label">요금: </span><span class="map-value">{{rate || "무료"}}</span>
+					</div>
+				</div>
+			</ui-gmap-windows>
+		</ui-gmap-markers>
+
+		<ui-gmap-marker idKey="0" coords="userPosition" icon="'images/currentgps.png'" options="userPositionOptions"></ui-gmap-markers>
+		<map-height height="40" to=".angular-google-map-container" style="">
+
+		</map-height>
+
+		
+	</ui-gmap-google-map>
+
+<tabset percent-height="60">
+	<tab heading="{{accmType.type}}" ng-repeat="accmType in accmTypes" select="onAccmTypeClicked(accmType)">
+		<ul style="list-style-type:none" class="list-group hoverable" tab-scroll>
+			<li class="list-group-item" ng-repeat="accmItem in getAccmItems(accmType)" ng-click="onAccmItemClicked(accmItem)">
+				<div style="cursor:pointer"> 
+					{{accmItem.name}}<br/>
+					<span style="font-size:8pt">
+						<span style="color:#2C6DD7;padding-left:20px;font-weight:bold">시간</span>
+						<span style="padding-left: 5px">
+							{{ "%02d:00"|sprintf:[accmItem.begintime] }} ~ {{ "%02d:00"|sprintf:[accmItem.endtime] }}
+						</span>
+
+						<span style="color:#2C6DD7;padding-left:20px;">주소</span>
+						<span style="padding-left: 5px">{{accmItem.address}}</span>
+					</span>
+
+					<div ng-if="accmType.type === '주차장'" style="font-size:8pt">
+						<span style="color:#2C6DD7;padding-left:20px;font-weight:bold">요금</span>
+						<span style="padding-left: 5px">
+							{{accmItem.rate || "없음"}}
+						</span>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</tab>
+</tabset>
+</div>

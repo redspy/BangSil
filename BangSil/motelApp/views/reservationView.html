@@ -1,0 +1,55 @@
+<div style="background-color:white">
+	<div content-for="title">
+    	<span>예약</span>
+	</div>
+	<div class="panel scrollable scrollable-content" bs-panel>
+		<div class="panel-heading">
+            <h2 class="panel-title">예약 목록</h2>
+        </div>
+        <div style="list-style-type:none" class="list-group border-bottom scrollable-content" tab-scroll>
+        	<ng-switch on="reservations.length > 0">
+        		<div ng-switch-when="true">
+        			<div class="requestItem" ng-repeat="request in reservations" ng-class-even="'light-gray'">
+						<table valign="center">
+							<tr>
+								<td class="requestItemHeader" width="30%">
+									<span>예약</span>
+								</td>
+								<td>
+									<span>{{request.rsvname}}</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="requestItemHeader">
+									<span>요청</span>
+								</td>
+								<td>
+									<span>{{request.requesttime}}</span>
+								</td>
+							</tr>							
+							<tr>
+								<td class="requestItemHeader">
+									<span>금액</span>
+								</td>
+								<td>
+									<span>{{request.requestfee | noFractionCurrency:""}}원</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="requestItemHeader">
+									<span>숙박</span>
+								</td>
+								<td>
+									<span>{{request.checkin}} ~ {{request.checkout}}</span>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div ng-switch-default>
+					<p class="notice">예약이 없습니다.</p>
+				</div>
+			</ng-switch>
+		</div>
+	</div>
+</div>

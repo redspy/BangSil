@@ -1,0 +1,60 @@
+﻿<div style="background-color:white">
+	<div content-for="title">
+		<span>예약 승인</span>
+	</div>
+	<div class="panel scrollable scrollable-content" bs-panel >
+		<div class="panel-heading">
+			<h2 class="panel-title">요청 목록</h2>
+		</div>
+		<div class="panel" >
+			<div style="list-style-type:none" class="list-group border-bottom " tab-scroll>
+				<ng-switch on="requests.length > 0">
+				<div ng-switch-when="true">
+					<div class="requestItem" ng-repeat="request in requests" ng-class-even="'light-gray'">
+						<table valign="center">
+							<tr>
+								<td class="requestItemHeader" width="20%">
+									<span>예약</span>
+								</td>
+								<td width="70%">
+									<span>{{request.rsvname}}</span>
+								</td>
+								<td rowspan="4" width="10%">
+									<button class="btn btn-sm" ng-click="submitConfirm(request.id)">입금</br>확인</button>
+								</td>
+							</tr>
+							<tr>
+								<td class="requestItemHeader">
+									<span>금액</span>
+								</td>
+								<td>
+									<span>{{request.requestfee | noFractionCurrency:""}}원</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="requestItemHeader">
+									<span>숙박</span>
+								</td>
+								<td>
+									<span>{{request.checkin}} ~ {{request.checkout}}</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="requestItemHeader">
+									<span>요청</span>
+								</td>
+								<td>
+									<span>{{request.requesttime}}</span>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div ng-switch-default>
+					<p class="notice">들어온 요청이 없습니다.</p>
+				</div>
+			</ng-switch>
+		</div>
+	</div>
+</div>
+</div>

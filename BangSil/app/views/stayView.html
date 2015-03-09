@@ -1,0 +1,287 @@
+<div content-for="title">
+    <span>{{name}}</span>
+</div>
+<div style="background-color : white">
+    <tabset percent-height="100">
+        <tab heading="바로방" select="onMotelSelected()" active="activeTab[0]">
+            <ul style="list-style-type:none" class="list-group" tab-scroll>
+                <li class="list-group-item room_background" ng-repeat="room in rooms">
+                    <div class="stay_room">
+                        <table>
+                            <tr>
+                                <td colspan="2">
+                                    <img ng-src="images/motel/{{room.mainimg}}" alt="{{room.name}}">
+                                </td>
+                            <tr>
+                            <tr>
+                                <td>
+                                    <span class="room_name">
+                                        {{room.name}}
+                                   	    <span class="badge" gps-distance="{'from':room.geo, 'to':curPosition }"></span>
+                                    </span>
+                                    <span class="room_addr">{{room.address}}</span>
+                                </td>
+                                <td>
+                                    <a href="tel:{{room.telephone}}" class="pull-right room_phone">
+                                        <i class="fa fa-phone" style="font-size:30px;"></i>
+                                        <span style="display:block;font-size:7px">전화하기</span>
+                                    </a>
+                                </td>
+                        </table>
+                    </div>
+                </li>
+            </ul>
+        </tab>
+        <tab heading="조건검색" select="onSearchSelected()" active="activeTab[1]">
+            <div tab-scroll>
+                <!-- 조건 검색 -->
+                <div ng-show="callRoomStatus == 'search'">             
+                    <ul style="list-style-type:none" class="list-group">
+                        <li>
+                            <div class="panel" bs-panel percent-height="100">
+                                <div class="form-group row">
+                                    <label class="col-xs-3 col-sm-2 col-lg-1 text-center">권역</label>
+                                    <div class="col-xs-9 col-sm-4 col-lg-11">
+                                        <select class="form-control" ng-model="requestRoom.region">
+                                            <option value="-1" selected="selected">전체</option>
+                                            <option ng-repeat="region in regions" value="{{region.id}}">{{region.name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-xs-3 col-sm-2 col-lg-1 text-center">가격</label>
+                                    <div class="col-xs-9 col-sm-4 col-lg-11">
+                                         <select class="form-control" ng-model="requestRoom.requestfee">
+                                            <option value="10000">10,000원</option>
+                                            <option value="15000">15,000원</option>
+                                            <option value="20000">20,000원</option>
+                                            <option value="25000">25,000원</option>
+                                            <option value="30000">30,000원</option>
+                                            <option value="35000">35,000원</option>
+                                            <option value="40000">40,000원</option>
+                                            <option value="45000">45,000원</option>
+                                            <option value="50000">50,000원</option>
+                                            <option value="55000">55,000원</option>
+                                            <option value="60000">60,000원</option>
+                                            <option value="65000">65,000원</option>
+                                            <option value="70000">70,000원</option>
+                                            <option value="75000">75,000원</option>
+                                            <option value="80000">80,000원</option>
+                                            <option value="85000">85,000원</option>
+                                            <option value="90000">90,000원</option>
+                                            <option value="95000">95,000원</option>
+                                            <option value="100000">100,000원</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-xs-3 col-sm-2 col-lg-1 text-center">체크인</label>
+                                    <div class="col-xs-9 col-sm-4 col-lg-11">
+                                    <!--
+                                        <input type="date" class="form-control" ng-model="requestRoom.checkin" 
+                                               min="{{today}}"/>
+                                    -->
+                                    
+                                    <input type="text" pick-a-date="date" pick-a-date-options="checkInOption" class="form-control" ng-model="requestRoom.checkin"/>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-xs-3 col-sm-2 col-lg-1 text-center">체크아웃</label>
+                                    <div class="col-xs-9 col-sm-4 col-lg-11">
+                                    <!--
+                                        <input type="date" class="form-control" ng-model="requestRoom.checkout"
+                                               min="{{requestRoom.minCheckout}}"/>
+                                    -->
+                                    <input type="text" pick-a-date="date" pick-a-date-options="checkOutOption" class="form-control" ng-model="requestRoom.checkout"/>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-primary btn-lg col-xs-12 col-sm-12 col-lg-12" ng-click="searchRoom()">검색</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- 방 대기 -->
+                <div ng-show="callRoomStatus == 'waitOffer'" style="text-align:center">
+                    <img src="images/waitOffer.jpg" />
+                </div>
+                <!-- -->
+                <div ng-show="callRoomStatus == 'rejected'">
+                    <img src="images/rejected.jpg" />
+                
+                    <div class="center-block text-center">
+                        <button class="btn btn-primary" ng-click="callRoomStatus='search'">
+                            조건검색 다시 하기
+                        </button>
+                    </div>
+                </div>
+                <!-- 방 수락 여부 선택 -->
+                <div ng-show="callRoomStatus == 'chooseOffer'" class="chooseOfferContainer">
+                    <p class="chooseOfferTitle">
+                        <span class="region">경포</span>
+                        지역 
+                        <span class="price">{{searchCondition.requestfee | noFractionCurrency:""}}</span>
+                        원 실시간 빈방 검색결과
+                    </p>
+                    <div class="stay_room room_background" style="margin-top:0px">
+                        <table>
+                            <tr>
+                                <td colspan="2">
+                                    <img ng-src="images/motel/{{offerMotel.mainimg}}" alt="{{offerMotel.name}}">
+                                </td>
+                            <tr>
+                            <tr>
+                                <td>
+                                    <span class="room_name">
+                                        {{offerMotel.name}}
+                                        <span class="badge">100m</span>
+                                    </span>
+                                    <span class="room_addr">{{offerMotel.address}}</span>
+                                </td>
+                                <td>
+                                    <a href="tel:{{offerMotel.telephone}}" class="pull-right room_phone">
+                                        <i class="fa fa-phone" style="font-size:30px;"></i>
+                                        <span style="display:block;font-size:7px">전화하기</span>
+                                    </a>
+                                </td>
+                        </table>
+                    </div>
+                    <hr class="chooseOfferLine"/>
+                    <div class="form-group row chooseOfferButtonContainer text-center">
+                            <button class="btn btn-primary" ng-click="acceptOffer(offerId)">예약하기</button> 
+                            <button class="btn btn-danger" ng-click="rejectOffer(offerId)">거절 후 재검색</button>
+                    </div>
+                    <p class="chooseOfferInfo">
+                        동일조건으로 다른 숙소를 원하실 경우 재검색 클릭!</br>
+                        재검색은 3회까지 가능합니다.</br>
+                        한번 거절된 업체는 재검색 시 표시되지 않습니다.</br>
+                    </p>
+                </div>
+                <!-- 예약 승인 대기 -->
+                <div ng-show="callRoomStatus == 'waitReservation'">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">예약 대기</h2>
+                    </div>        
+                    <p class="chooseOfferTitle">
+                        예약 승인 대기 중입니다.
+                    </p>
+                    <div class="stay_room room_background" style="margin-top:0px">
+                        <table>
+                            <tr>
+                                <td colspan="2">
+                                    <img ng-src="images/motel/{{offerMotel.mainimg}}" alt="{{offerMotel.name}}">
+                                </td>
+                            <tr>
+                            <tr>
+                                <td>
+                                    <span class="room_name">
+                                        {{offerMotel.name}}
+                                        <span class="badge">100m</span>
+                                    </span>
+                                    <span class="room_addr">{{offerMotel.address}}</span>
+                                </td>
+                                <td>
+                                    <a href="tel:{{offerMotel.telephone}}" class="pull-right room_phone">
+                                        <i class="fa fa-phone" style="font-size:30px;"></i>
+                                        <span style="display:block;font-size:7px">전화하기</span>
+                                    </a>
+                                </td>
+                        </table>
+                    </div>
+                </div>
+                <!-- 예약 완료 -->
+                <div ng-show="callRoomStatus == 'reservationOK'">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">예약 완료</h2>
+                    </div>
+                    <p class="chooseOfferTitle">
+                        예약되었습니다. 감사합니다.
+                    </p> 
+                    <div class="stay_room room_background" style="margin-top:0px">
+                        <table>
+                            <tr>
+                                <td colspan="2">
+                                    <img ng-src="images/motel/{{offerMotel.mainimg}}" alt="{{offerMotel.name}}">
+                                </td>
+                            <tr>
+                            <tr>
+                                <td>
+                                    <span class="room_name">
+                                        {{offerMotel.name}}
+                                        <span class="badge">100m</span>
+                                    </span>
+                                    <span class="room_addr">{{offerMotel.address}}</span>
+                                </td>
+                                <td>
+                                    <a href="tel:{{offerMotel.telephone}}" class="pull-right room_phone">
+                                        <i class="fa fa-phone" style="font-size:30px;"></i>
+                                        <span style="display:block;font-size:7px">전화하기</span>
+                                    </a>
+                                </td>
+                        </table>
+                    </div>
+                    <div class="text-center" style="margin-top:10px">
+                        <button class="btn btn-primary btn-lg" ng-click="finishReservation()">확인</button>
+                    </div>
+                </div>
+            </div>
+        </tab>
+        <tab heading="예약" select="onReservationTabSelected()" active="activeTab[2]">
+            <div class="panel" bs-panel tab-scroll>
+                <div class="panel-heading">
+                    <h2 class="panel-title">예약 목록</h2>
+                </div>
+                <div class="border-bottom">
+                    <ng-switch on="reservations.length > 0" >
+                        <div ng-switch-when="true" >
+                            <div class="requestItem" ng-repeat="resv in reservations" ng-class-even="'light-gray'">
+                                <table valign="center">
+                                    <tr>
+                                        <td class="requestItemHeader" width="20%">
+                                            <span>예약</span>
+                                        </td>
+                                        <td width="auto">
+                                            <span>
+                                                {{resv.motel.name}}({{resv.motel.telephone}})<br />
+                                                {{resv.motel.address}}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="requestItemHeader">
+                                            <span>요청</span>
+                                        </td>
+                                        <td>
+                                            <span>{{resv.requesttime}}</span>
+                                        </td>
+                                    </tr>                           
+                                    <tr>
+                                        <td class="requestItemHeader">
+                                            <span>금액</span>
+                                        </td>
+                                        <td>
+                                            <span>{{resv.requestfee | noFractionCurrency:""}}원</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="requestItemHeader">
+                                            <span>숙박</span>
+                                        </td>
+                                        <td>
+                                            <span>{{resv.checkin}} ~ {{resv.checkout}}</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div ng-switch-default>
+                            <p class="notice">예약이 없습니다.</p>
+                        </div>
+                    </ng-switch>
+                </div>
+            </div>
+        </tab>
+    </tabset>
+</div>

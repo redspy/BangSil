@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ko" ng-app="myApp">
+	<head>
+		<meta charset="utf-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
+<title></title>
+            <!-- Style Sheets -->
+            <link rel="stylesheet" href="styles/bootstrap.min.css" />
+            <link rel="stylesheet" href="styles/mobile-angular-ui-base.min.css" />
+            <link rel="stylesheet" href="styles/app.css" />
+            <link rel="stylesheet" href="styles/main.css" />
+            <!-- End of Style Sheets -->     
+    </head>
+	<body class="view-container" ng-controller="MainController">        
+        <div class="sidebar sidebar-left" toggleable parent-active-class="sidebar-left-in" id="mainSidebar">
+            <h1 class="app-name" style="font-size : 18pt; color : #1ba3d9">방실방실 강릉</h1>            
+            <div class="scrollable" style="background-color : white">
+                <div class="scrollable-content" style="border:1px solid #dddddd">
+                    <div class="list-group" toggle="off" bubble target="mainSidebar">
+                        <a class="list-group-item" href="#/reservation" style="font-size : 15pt">예약관리<i class="fa fa-chevron-right pull-right"></i></a>
+<!-- 
+                        <a class="list-group-item" href="#/convenience" style="font-size : 15pt">편의시설<i class="fa fa-chevron-right pull-right"></i></a>
+                        <a class="list-group-item" href="#/transport" style="font-size : 15pt">교통정보<i class="fa fa-chevron-right pull-right"></i></a>
+                        <a class="list-group-item" href="#/ad" style="font-size : 15pt">유용한정보<i class="fa fa-chevron-right pull-right"></i></a>
+ -->
+                        <a class="list-group-item" href="#/admin" style="font-size : 15pt">관리자<i class="fa fa-chevron-right pull-right"></i></a>
+                        <!-- ... -->
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="app">
+            
+            <!--Header navbar-->
+            <div class="navbar navbar-app navbar-absolute-top" style="background-color : #1ba3d9; color : white; font-size : 16pt; font-weight: bold">
+                <div class="navbar-brand navbar-brand-center" yield-to="title">
+                    <span>방실방실</span>
+                </div>
+            </div>
+            <div class="app-body" style="background-color : white">
+            	<div ng-show="loading" class="app-content-loading">
+          			<i class="fa fa-spinner fa-spin loading-spinner"></i>
+        		</div>
+                <ng-view class="app-content">
+                </ng-view>
+            </div>
+            
+		</div>
+		
+        <!-- External Libraries -->
+        <script src="scripts/libs/jquery/jquery-1.11.1.js"></script>
+        <script src="scripts/libs/angular-file-upload/angular-file-upload-html5-shim.min.js"></script>
+
+        <script src="scripts/libs/angular/angular.js"></script>
+        <script src="scripts/libs/angular/angular-route.js"></script>
+        <script src="scripts/libs/angular/angular-resource.js"></script>
+        <script src="scripts/libs/ui-bootstrap/ui-bootstrap-tpls-0.11.0.js"></script>
+        <script src="scripts/libs/mobile-angular-ui/mobile-angular-ui.js"></script>
+        <script src='http://maps.googleapis.com/maps/api/js?sensor=false'></script>
+        <script src="scripts/libs/lodash.underscore/lodash.underscore.js"></script>
+        <script src="scripts/libs/angular-google-maps/angular-google-maps.js"></script>
+        <script src="scripts/libs/angular-file-upload/angular-file-upload.js"></script>
+        <!-- End of External Libraries-->
+        
+        <!-- App Scripts -->
+        <script src="scripts/app_owner.js"></script>
+        <script src="scripts/main.js"></script>
+
+        <!-- Directives -->
+        <script src="scripts/directives/directives.js"></script>
+
+        <!-- Services/Factories/Providers -->
+        <script src="scripts/services/adService.js"></script>
+        <script src="scripts/factories/accmType.js"></script>
+        <script src="scripts/factories/accmItem.js"></script>
+        <script src="scripts/factories/callTaxi.js"></script>
+        <script src="scripts/factories/session.js"></script>
+        <script src="scripts/factories/advertise.js"></script>        
+        <script src="scripts/factories/motel.js"></script>
+        <!-- Controller -->
+        <script src="scripts/controllers/reservationController.js"></script>    
+    
+        <script src="scripts/controllers/stayController.js"></script>
+        <script src="scripts/controllers/transportController.js"></script>
+        <script src="scripts/controllers/convenienceController.js"></script>
+        <script src="scripts/controllers/adController.js"></script>
+        <script src="scripts/controllers/adminController.js"></script>
+		<!-- End of App Scripts -->
+	</body>
+</html>

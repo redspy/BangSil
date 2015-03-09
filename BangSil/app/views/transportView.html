@@ -1,0 +1,62 @@
+﻿<div content-for="title">
+	<span>{{name}}</span>
+</div>
+<div style="background-color : #ffffff">
+	<tabset percent-height="100">
+		<tab heading="버스노선">
+			<div id="map_canvas">
+			    <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" options="map.options" bounds="map.bounds">
+			        <ui-gmap-markers models="randomMarkers" coords="'self'" icon="'icon'" click="'onClick'">
+			            <ui-gmap-windows show="show">
+			                <div ng-non-bindable>{{title}}</div>
+			            </ui-gmap-windows>
+			        </ui-gmap-markers>
+			        <ui-gmap-marker idKey="0" coords="userPosition" icon="'images/currentgps.png'" options="userPositionOptions"></ui-gmap-markers>
+			        <map-height height="40" to=".angular-google-map-container" style=""></map-height>
+			    </ui-gmap-google-map>
+			</div>
+			<ul style="list-style-type:none" class="list-group" percent-height="40" tab-scroll>
+				<li>
+					<accordion close-others="'true'">
+    					<accordion-group ng-repeat="bus in busStops" style="margin : 10px">
+	    					<accordion-heading>
+	    						<p style="color : black; margin-left : 10px; margin-bottom : 0px">{{bus}}</p>
+    	  					</accordion-heading>
+    	  						{{getBusLine(bus)}}
+	   					</accordion-group>
+				  </accordion>
+				</li>
+			</ul>
+		</tab>
+		<tab heading="콜택시">
+			<ul style="list-style-type:none" class="list-group" tab-scroll>
+				<li class="list-group-item" ng-repeat="callTaxi in callTaxis">
+					<div style="cursor:pointer" class="trans_taxi"> 
+						<table width="100%">
+							<tr>
+								<td><span class="taxi_name">{{callTaxi.name}}</span></td>
+								<td rowspan="3" width="10%">
+									<a href="tel:{{callTaxi.telno}}" class="pull-right room_phone">
+										<i class="fa fa-phone" style="font-size:30px;margin:0px;padding:0px"></i><span style="display:block;font-size:7px">전화하기</span>
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="taxi_payTitle">콜비: </span>
+									<span class="taxi_pay">{{callTaxi.callfee}}</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="taxi_number">{{callTaxi.telno}}</span>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</li>
+			</ul>
+		</tab>
+
+	</tabset>
+</div>			
